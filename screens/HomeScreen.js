@@ -1,5 +1,5 @@
 // rnfe - shortcut
-import { View, Text ,Image, ScrollView} from 'react-native'
+import { View, Text ,Image, ScrollView, TouchableOpacity} from 'react-native'
 import React ,{useLayoutEffect} from 'react'
 import { CircularProgressBase } from 'react-native-circular-progress-indicator';
 import { useNavigation } from '@react-navigation/native'
@@ -8,8 +8,22 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DailyGoalsCard from '../components/DailyGoalsCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToBasket, removeFromBasket, selectBasketItemsWithId } from '../slices/basketSlice';
 
 const HomeScreen = () => {
+
+   const items = useSelector((state)=>selectBasketItemsWithId(state,1));
+   const dispatch = useDispatch();
+
+   const addItemToBasket =() =>{
+    dispatch(addToBasket({id:1,name:"Rajat"}));
+   }
+   const removeItemFromBasket = () =>{
+    if(!items.length > 0) return;
+    
+    dispatch(removeFromBasket({id:1}));
+   }
     const props = {
         activeStrokeWidth: 13,
         inActiveStrokeWidth: 13,
@@ -17,14 +31,18 @@ const HomeScreen = () => {
       };
       const navigation = useNavigation();
 
+      // this runs when ui loads
       useLayoutEffect(()=>{
         navigation.setOptions({
             headerShown:false,
         });
       },[])
+
+      //use effect runs when the functional component loads
   return (
 
-    <SafeAreaView className=" bg-[#202125] flex-1">
+    <SafeAreaView className=" bg-[#202125] flex-1 relative">
+        
         <ScrollView>
             {/* Header */}
         <View>
@@ -38,7 +56,6 @@ const HomeScreen = () => {
                     className="h-10 w-10 bg-gray-300 p-4 rounded-full "
                 />
 
-              
             </View>
             <View className=" items-center justify-center pt-10">
             <CircularProgressBase
@@ -57,7 +74,7 @@ const HomeScreen = () => {
                 >   
                 <View className="items-center">
                     <Text className="text-[#00DEB0] text-5xl font-bold" >42</Text>
-                    <Text className="text-[#669DF8] text-3xl">5,372</Text>
+                    <Text className="text-[#669DF8] text-3xl font-semibold">5,372</Text>
                 </View>
                     
                 </CircularProgressBase>
@@ -92,9 +109,22 @@ const HomeScreen = () => {
         </View>
         </ScrollView>
         
+        {/* Footer Bar */}
+       <View className="border-2 border-red-500 h-12 bg-">
 
+       </View>
        
-      
+       {/* right corner plus */}
+        <TouchableOpacity className="absolute bottom-16 right-7 z-50" 
+          onPress={()=>{
+            navigation.navigate("Journal",{ test:"hello"})
+          }}
+        >
+              <View className="bg-[#2A2B2F] rounded-full w-14 h-14 shadow-2xl items-center justify-center">
+                <FontAwesome5 name="plus" size={24} color="white" />
+              </View>  
+        </TouchableOpacity>
+
     </SafeAreaView>
     
   )

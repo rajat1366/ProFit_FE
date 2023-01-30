@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { CircularProgressBase } from 'react-native-circular-progress-indicator';
@@ -13,7 +13,7 @@ const DailyGoalsCard = () => {
   
   
   return (
-    <View className="bg-[#2A2B2F]  p-3 rounded-xl">
+    <TouchableOpacity className="bg-[#2A2B2F]  p-3 rounded-xl">
       <View className="flex-row">
         <Text className="text-white font-medium text-lg flex-1"> Your daily goals</Text>
         <AntDesign name="right" size={17} color="white" />
@@ -192,7 +192,7 @@ const DailyGoalsCard = () => {
       </View>
       
       
-    </View>
+    </TouchableOpacity>
   )
 }
 
